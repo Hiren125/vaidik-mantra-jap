@@ -38,6 +38,7 @@ Jetpack Compose UI migration
 User authentication
 Offline-first sync strategy improvement
 Usage analytics and insights
+
 Note
 
 This project demonstrates real-world Android development experience including local storage, cloud sync, and production release handling.
