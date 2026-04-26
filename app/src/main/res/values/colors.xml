@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="saffron_primary">#FF9933</color>
+    <color name="saffron_primary_variant">#E65100</color>
+
+    <color name="saffron_dark_primary">#FFB74D</color>
+    <color name="saffron_dark_variant">#FFA726</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>

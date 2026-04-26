@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.VedicMantraJap" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/saffron_dark_primary</item>
+        <item name="colorPrimaryVariant">@color/saffron_dark_variant</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="colorSecondary">@color/saffron_dark_variant</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="android:statusBarColor">#000000</item>
+    </style>
+</resources>

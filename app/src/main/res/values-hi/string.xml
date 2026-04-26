@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">वैदिक मंत्र जप</string>
+
+    <string name="menu_header_settings">सेटिंग्स</string>
+    <string name="menu_header_support">सहायता</string>
+
+    <string name="menu_share">ऐप साझा करें</string>
+    <string name="menu_rate">हमें रेटिंग दें</string>
+
+    <string name="menu_theme_light">लाइट मोड</string>
+    <string name="menu_theme_dark">डार्क मोड</string>
+
+    <string name="menu_language">भाषा बदलें</string>
+    <string name="dialog_language_title">भाषा चुनें</string>
+
+    <string name="header_suggested">✨ सुझाए गए मंत्र</string>
+    <string name="header_daily">🧘 मेरी साधना</string>
+
+    <string name="btn_save">सुरक्षित करें</string>
+    <string name="btn_cancel">रद्द करें</string>
+    <string name="btn_update">अपडेट करें</string>
+    <string name="btn_delete">हटाएँ</string>
+    <string name="btn_add_new">नई साधना</string>
+
+    <string name="dialog_edit_title">%1$s का लक्ष्य बदलें</string>
+    <string name="dialog_delete_title">%1$s को हटाएँ?</string>
+    <string name="dialog_delete_msg">क्या आप वाकई अपनी साधना को हटाना चाहते हैं?</string>
+
+    <string name="hint_mantra_name">मंत्र का नाम</string>
+    <string name="hint_target_malas">माला का लक्ष्य</string>
+
+    <string name="no_mantra_found">अभी कोई मंत्र नहीं है,\n + दबाकर अपना मंत्र जोड़</string>
+
+    <string name="label_mala_singular">माला</string>
+    <string name="label_mala_plural">मालाएं</string>
+    <string name="label_extra_beads">%1$d माला + %2$d अतिरिक्त</string>
+    <string name="total_beads_info">कुल %1$d मनके</string>
+
+    <string name="toast_min_goal">न्यूनतम लक्ष्य 1 माला है</string>
+    <string name="sync_started">क्लाउड सिंक शुरू हो रहा है...</string>
+    <string name="sync_empty">कोई सुझाव नहीं मिला!</string>
+
+    <string name="label_chants">जाप</string>
+    <string name="label_goal_format">लक्ष्य: %1$d माला</string>
+    <string name="label_completed_format">पूर्ण: %1$d माला (%2$d/108)</string>
+    <string name="toast_target_achieved">लक्ष्य प्राप्त हुआ! 🙏</string>
+    <string name="menu_reset_count">गिनती रीसेट करें</string>
+    <string name="menu_delete_mantra">मंत्र हटाएं</string>
+    <string name="menu_edit_goal">लक्ष्य बदलें (माला)</string>
+    <string name="dialog_reset_msg">क्या आप अपनी प्रगति को शून्य पर रीसेट करना चाहते हैं?</string>
+    <string name="dialog_delete_confirm_msg">क्या आप वाकई इस मंत्र को हटाना चाहते हैं?</string>
+    <string name="dialog_enter_malas">माला की संख्या दर्ज करें</string>
+    <string name="btn_reset">रीसेट</string>
+    <string name="focus_mode_hint">फोकस मोड: स्क्रीन चालू रहेगी\nगिनने के लिए कहीं भी टैप करें</string>
+</resources>

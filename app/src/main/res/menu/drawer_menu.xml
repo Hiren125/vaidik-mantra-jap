@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group_settings">
+        <item
+            android:id="@+id/nav_theme"
+            android:icon="@drawable/ic_night_mode"
+            android:title="@string/menu_theme_dark" />
+
+        <item
+            android:id="@+id/nav_language"
+            android:icon="@drawable/ic_language"
+            android:title="@string/menu_language" />
+    </group>
+
+    <group android:id="@+id/group_support">
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="@string/menu_share" />
+
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@android:drawable/btn_star"
+            android:title="@string/menu_rate"/>
+    </group>
+
+</menu>

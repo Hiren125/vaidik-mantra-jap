@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1056533843294",
+    "firebase_url": "https://vedicmantrajap-native-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "vedicmantrajap-native",
+    "storage_bucket": "vedicmantrajap-native.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056533843294:android:1913897723bb8d71e613cf",
+        "android_client_info": {
+          "package_name": "com.vedicapps.mantrajap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCICNVDONGi9Yk2EO9-ELNuO3cXFU1EejU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
