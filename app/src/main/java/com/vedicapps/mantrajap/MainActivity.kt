@@ -64,6 +64,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
+        checkForceUpdate()
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
@@ -117,10 +119,12 @@ class MainActivity : AppCompatActivity() {
         setupSwipeActions(recyclerView)
         fab.setOnClickListener { showAddDialog() }
 
-        // Handle Window Insets for Edge-to-Edge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // This adds padding so your Menu button and FAB stay in the "Safe Area"
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
             insets
         }
     }
@@ -283,6 +287,46 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             .setNegativeButton(getString(R.string.btn_cancel), null)
+            .show()
+    }
+
+    private fun checkForceUpdate() {
+        val remoteConfig = com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance()
+
+        // Set default values (optional)
+        val configSettings = com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600) // Fetch every hour
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+
+        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val minVersionCode = remoteConfig.getLong("min_version_code")
+                val currentVersionCode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    packageManager.getPackageInfo(packageName, 0).longVersionCode
+                } else {
+                    packageManager.getPackageInfo(packageName, 0).versionCode.toLong()
+                }
+
+                if (currentVersionCode < minVersionCode) {
+                    showUpdateDialog()
+                }
+            }
+        }
+    }
+
+    private fun showUpdateDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.update_title))
+            .setMessage(getString(R.string.update_message))
+            .setCancelable(false) // Force the update
+            .setPositiveButton(getString(R.string.btn_update_now)) { _, _ ->
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = android.net.Uri.parse("market://details?id=$packageName")
+                }
+                startActivity(intent)
+                finish() // Close the app if they don't update
+            }
             .show()
     }
 }

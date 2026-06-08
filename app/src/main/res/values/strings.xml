@@ -56,4 +56,9 @@
 
     <string name="focus_mode_hint">Focus Mode: Screen will stay on\nTap anywhere to count</string>
 
+
+    <string name="update_title">Update Available</string>
+    <string name="update_message">A new version of Vedic Mantra Jap is available. Please update to continue using the app.</string>
+    <string name="btn_update_now">Update Now</string>
+
 </resources>
