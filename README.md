@@ -1,66 +1,62 @@
-# Vaidik Mantra Jap (Android App)
+# Vedic Mantra Jap 🕉️
 
-Vaidik Mantra Jap is an Android application for focused mantra chanting and count tracking, designed with a simple and distraction-free interface.
+A native Android app for daily mantra chanting and mala tracking — built offline-first, designed for simplicity, and compliant with modern Android 15/16 standards.
+
+[![Get it on Google Play](https://img.shields.io/badge/Google%20Play-Download-brightgreen?logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.vedicapps.mantrajap)
+
+---
+
+## Screenshots
+
+| Splash | Home (Light) | Chanting | Home (Dark) | Swipe Gesture | Language |
+|--------|-------------|----------|-------------|---------------|----------|
+| ![Splash](screenshots/splash.png) | ![Home Light](screenshots/home_light.png) | ![Chanting](screenshots/chanting.png) | ![Home Dark](screenshots/home_dark.png) | ![Swipe](screenshots/swipe.png) | ![Language](screenshots/language.png) |
 
 ---
 
 ## Features
 
-- Mantra chanting counter with persistent tracking  
-- Offline storage using Room Database  
-- Cloud sync using Firebase Realtime Database  
-- Smooth performance using Kotlin Coroutines  
-- Secure release setup with proper signing and build configuration  
-- Optimized production build with R8/ProGuard handling  
+- **Mantra List with Mala Tracking** — Preloaded system mantras synced from the cloud, plus user-created custom mantras with individual mala goals and progress tracking
+- **Chanting Counter** — Distraction-free full-screen chanting view with live count and mala progress
+- **Offline-First** — All data stored locally; app works fully without internet
+- **Swipe Gestures** — Swipe to edit or delete custom mantras with canvas-drawn action backgrounds
+- **Dark / Light Mode** — Switchable themes with a dedicated settings panel
+- **Hindi / English** — On-the-fly language switching without restarting the app
+- **Force Update** — Remote Config-driven update enforcement without a new release
 
 ---
 
 ## Tech Stack
 
-- Kotlin  
-- Android SDK  
-- Room Database  
-- Firebase Realtime Database  
-- Kotlin Coroutines  
-- Gradle (KTS)  
-
----
-
-## Architecture & Approach
-
-- MVVM-based structure for separation of concerns  
-- Repository pattern for data handling (local + cloud)  
-- Coroutine-based async operations for non-blocking UI  
-- Firebase integration for real-time data sync  
-- Room for reliable offline-first experience  
-
----
-
-## Key Highlights
-
-- Handles both offline and online data consistency  
-- Production-ready release setup (signing, build variants, ProGuard rules)  
-- Proper handling of Firebase serialization and mapping  
-- Efficient background processing using structured concurrency  
+| Area | Technology |
+|------|-----------|
+| Language | Kotlin |
+| UI | XML (ConstraintLayout, DrawerLayout) |
+| Architecture | MVVM, Offline-First |
+| Local Storage | Room Database + KSP |
+| Cloud Sync | Firebase Realtime Database |
+| Remote Control | Firebase Remote Config |
+| Async | Kotlin Coroutines |
+| Build | Gradle (Kotlin DSL), Version Catalogs |
+| Min SDK | API 24 (Android 7.0) |
+| Target SDK | API 36 (Android 16) |
 
 ---
 
 ## Setup
 
-Clone the repository:
-git clone https://github.com/your-username/vaidik-mantra-jap.git
+```bash
+git clone https://github.com/Hiren125/vedic-mantra-jap.git
+```
 
-Open in Android Studio  
-Add your Firebase configuration (`google-services.json`)  
-Sync Gradle and run the app  
+1. Open in Android Studio
+2. Add your own `google-services.json` from Firebase Console into the `app/` folder
+3. Sync Gradle and run
 
-## Future Improvements
+> `google-services.json` is excluded from this repo via `.gitignore`
 
-- Jetpack Compose UI migration  
-- User authentication  
-- Offline-first sync strategy improvement  
-- Usage analytics and insights  
+---
 
-## Note
+## Download
 
-This project demonstrates real-world Android development experience including local storage, cloud sync, and production release handling.
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200">](https://play.google.com/store/apps/details?id=com.vedicapps.mantrajap)
