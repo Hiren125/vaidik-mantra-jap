@@ -15,8 +15,8 @@ android {
         applicationId = "com.vedicapps.mantrajap"
         minSdk = 24
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,32 +35,32 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-//    kotlinOptions {
-//        jvmTarget = "11"
-//    }
 }
 
 dependencies {
 
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.core.splashscreen)
+    //new
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
     // Room Database with modern KSP
     val roomVersion = "2.7.0"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
+    implementation("com.google.firebase:firebase-config-ktx:21.6.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // Core UI Libraries
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.core:core-ktx:1.18.0")
     implementation(libs.androidx.constraintlayout)
+
 
     // Testing
     testImplementation(libs.junit)

@@ -52,4 +52,9 @@
     <string name="dialog_enter_malas">माला की संख्या दर्ज करें</string>
     <string name="btn_reset">रीसेट</string>
     <string name="focus_mode_hint">फोकस मोड: स्क्रीन चालू रहेगी\nगिनने के लिए कहीं भी टैप करें</string>
+
+
+    <string name="update_title">अपडेट उपलब्ध है</string>
+    <string name="update_message">Vedic Mantra Jap का एक नया संस्करण उपलब्ध है। कृपया ऐप का उपयोग जारी रखने के लिए अपडेट करें।</string>
+    <string name="btn_update_now">अभी अपडेट करें</string>
 </resources>
