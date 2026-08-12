@@ -50,6 +50,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="?attr/colorOnPrimary" />
 
+        <!-- Place this at the bottom of your main layout XML
+           PRODUCTION - ca-app-pub-2289347554209885/3784076149
+           TEST - ca-app-pub-3940256099942544/6300978111
+       -->
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-2289347554209885/3784076149"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <!-- NOTE: The adUnitId above is Google's Official TEST Banner ID -->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
