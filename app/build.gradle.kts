@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
 //    alias(libs.plugins.kotlinAndroid) // Accesses the camelCase name from TOML
     alias(libs.plugins.ksp)           // Replaces 'kapt' for 2026 compatibility
-    id("com.google.gms.google-services") // <--- ADD THIS LINE
+    id("com.google.gms.google-services") //
 }
 
 android {
@@ -38,7 +38,8 @@ android {
 }
 
 dependencies {
-
+// Google Mobile Ads SDK
+    implementation("com.google.android.gms:play-services-ads:25.4.0")
     //new
     implementation("androidx.core:core-splashscreen:1.0.1")
 

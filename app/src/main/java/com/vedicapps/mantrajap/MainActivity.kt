@@ -30,6 +30,16 @@ import kotlinx.coroutines.launch
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import kotlinx.coroutines.delay
+import com.google.android.gms.ads.MobileAds
+
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.AdError
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +57,9 @@ class MainActivity : AppCompatActivity() {
     // Flag to control Splash Screen visibility
     private var isDataReady = false
 
+    private lateinit var adView: AdView
+    private var mInterstitialAd: InterstitialAd? = null // ADD THIS
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // 1. Splash Screen setup (MUST be before super.onCreate)
         val splashScreen = installSplashScreen()
@@ -61,19 +74,34 @@ class MainActivity : AppCompatActivity() {
         val appLocale = LocaleListCompat.forLanguageTags(savedLang)
         AppCompatDelegate.setApplicationLocales(appLocale)
 
-        super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
+        enableEdgeToEdge()
 
+        super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this) {}
+        loadInterstitialAd()
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+            window.isStatusBarContrastEnforced = false
+        }
+
+        setContentView(R.layout.activity_main)
+
+        FirebaseApp.initializeApp(this)
         checkForceUpdate()
 
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
 
         // Initialize UI Elements
         headerFixed = HeaderAdapter(getString(R.string.header_suggested))
         headerCustom = HeaderAdapter(getString(R.string.header_daily))
         db = AppDatabase.getDatabase(this)
         drawerLayout = findViewById(R.id.drawerLayout)
+
+
+        adView = findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         val btnMenu = findViewById<ImageButton>(R.id.btnMenu)
         val recyclerView = findViewById<RecyclerView>(R.id.mantraRecyclerView)
@@ -94,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         btnMenu.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
         setupDrawerContent(navView)
 
-        // 3. Data Observation & Splash Screen Dismissal
+        // Data Observation & Splash Screen Dismissal
         lifecycleScope.launch {
             // Give the user a moment to see the ॐ logo
             delay(1000)
@@ -117,7 +145,39 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) { syncManager.syncFixedMantras() }
 
         setupSwipeActions(recyclerView)
-        fab.setOnClickListener { showAddDialog() }
+//        fab.setOnClickListener { showAddDialog() }
+
+
+        fab.setOnClickListener {
+            // Check if the ad is loaded and ready
+            if (mInterstitialAd != null) {
+
+                // Set up the listener to know when the user closes the ad
+                mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        // User clicked the 'X' to close the ad.
+                        mInterstitialAd = null
+                        loadInterstitialAd() // Pre-load the next ad in the background
+                        showAddDialog()      // Now show your Add Dialog!
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                        mInterstitialAd = null
+                        showAddDialog() // If the ad fails, just show the dialog normally
+                    }
+                }
+
+                // Show the ad
+                mInterstitialAd?.show(this)
+
+            } else {
+                // The ad hasn't finished loading yet (or there is no internet),
+                // so don't make the user wait. Just show the dialog immediately.
+                showAddDialog()
+            }
+        }
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -328,5 +388,48 @@ class MainActivity : AppCompatActivity() {
                 finish() // Close the app if they don't update
             }
             .show()
+    }
+
+
+    override fun onPause() {
+        adView.pause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adView.resume()
+    }
+
+    override fun onDestroy() {
+        adView.destroy()
+        super.onDestroy()
+    }
+
+
+    private fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        // This is Google's Official TEST ID for Interstitials
+        //Test - ca-app-pub-3940256099942544/1033173712
+        //Production - ca-app-pub-2289347554209885/6284553304
+
+        val testInterstitialId = "ca-app-pub-2289347554209885/6284553304"
+
+
+        InterstitialAd.load(this, testInterstitialId, adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                // Ad is ready to be shown
+                mInterstitialAd = interstitialAd
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                // Ad failed to load
+                runOnUiThread {
+                    Toast.makeText(this@MainActivity, "Ad failed: ${adError.code} - ${adError.message}", Toast.LENGTH_LONG).show()
+                }
+
+                mInterstitialAd = null
+            }
+        })
     }
 }
