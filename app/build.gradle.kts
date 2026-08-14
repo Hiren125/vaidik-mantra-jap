@@ -15,8 +15,8 @@ android {
         applicationId = "com.vedicapps.mantrajap"
         minSdk = 24
         targetSdk = 36
-        versionCode = 3
-        versionName = "2"
+        versionCode = 6
+        versionName = "3.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,6 +40,8 @@ android {
 dependencies {
 // Google Mobile Ads SDK
     implementation("com.google.android.gms:play-services-ads:25.4.0")
+    // Add the Google UMP SDK for GDPR consent
+    implementation("com.google.android.ump:user-messaging-platform:3.0.0")
     //new
     implementation("androidx.core:core-splashscreen:1.0.1")
 

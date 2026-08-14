@@ -41,6 +41,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.AdError
 
+import com.google.android.ump.*
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
@@ -69,17 +71,60 @@ class MainActivity : AppCompatActivity() {
         themeManager = ThemeManager(this)
         themeManager.applySavedTheme()
 
-        val prefs = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val savedLang = prefs.getString("My_Lang", "en") ?: "en"
-        val appLocale = LocaleListCompat.forLanguageTags(savedLang)
-        AppCompatDelegate.setApplicationLocales(appLocale)
+//        val prefs = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+//        val savedLang = prefs.getString("My_Lang", "en") ?: "en"
+//        val appLocale = LocaleListCompat.forLanguageTags(savedLang)
+//        AppCompatDelegate.setApplicationLocales(appLocale)
 
         enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
 
-        MobileAds.initialize(this) {}
-        loadInterstitialAd()
+        // ==========================================
+        // GDPR CONSENT & ADMOB INITIALIZATION
+        // ==========================================
+        val params = ConsentRequestParameters.Builder().build()
+        val consentInformation = UserMessagingPlatform.getConsentInformation(this)
+
+        consentInformation.requestConsentInfoUpdate(
+            this,
+            params,
+            {
+                // The consent information has been updated.
+                // Now load and show the consent form if the user is in Europe.
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(this) { loadAndShowError ->
+
+                    val isPrivacyOptionsRequired = consentInformation.privacyOptionsRequirementStatus ==
+                            ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
+
+                    if (isPrivacyOptionsRequired) {
+                        val navView = findViewById<NavigationView>(R.id.navView)
+                        navView.menu.findItem(R.id.nav_privacy_options)?.isVisible = true
+                    }
+
+
+                    // If the user gave consent (or if they aren't in Europe), initialize Ads!
+                    if (consentInformation.canRequestAds()) {
+                        MobileAds.initialize(this) {}
+                        loadInterstitialAd()
+
+                        // Also load the banner ad here to ensure it waits for consent
+                        val adRequest = AdRequest.Builder().build()
+                        adView.loadAd(adRequest)
+                    }
+                }
+            },
+            { requestConsentError ->
+                // Consent gathering failed (e.g. no internet). Fallback to load ads if allowed.
+                if (consentInformation.canRequestAds()) {
+                    MobileAds.initialize(this) {}
+                    loadInterstitialAd()
+                }
+            }
+        )
+        // ==========================================
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false
@@ -100,8 +145,8 @@ class MainActivity : AppCompatActivity() {
 
 
         adView = findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView.loadAd(adRequest)
 
         val btnMenu = findViewById<ImageButton>(R.id.btnMenu)
         val recyclerView = findViewById<RecyclerView>(R.id.mantraRecyclerView)
@@ -198,6 +243,14 @@ class MainActivity : AppCompatActivity() {
                     updateDrawerThemeItem(navigationView)
                 }
                 R.id.nav_language -> showLanguageDialog()
+
+                R.id.nav_privacy_options -> {
+                    UserMessagingPlatform.showPrivacyOptionsForm(this) { formError ->
+                        if (formError != null) {
+                            android.util.Log.e("UMP", "Privacy form error: ${formError.message}")
+                        }
+                    }
+                }
                 R.id.nav_share -> {
                     val shareIntent = Intent(Intent.ACTION_SEND).apply {
                         type = "text/plain"
@@ -413,10 +466,10 @@ class MainActivity : AppCompatActivity() {
         //Test - ca-app-pub-3940256099942544/1033173712
         //Production - ca-app-pub-2289347554209885/6284553304
 
-        val testInterstitialId = "ca-app-pub-2289347554209885/6284553304"
+        val productionInterstitialId = "ca-app-pub-2289347554209885/6284553304"
 
 
-        InterstitialAd.load(this, testInterstitialId, adRequest, object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, productionInterstitialId, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
                 // Ad is ready to be shown
                 mInterstitialAd = interstitialAd
@@ -424,9 +477,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 // Ad failed to load
-                runOnUiThread {
-                    Toast.makeText(this@MainActivity, "Ad failed: ${adError.code} - ${adError.message}", Toast.LENGTH_LONG).show()
-                }
+//                runOnUiThread {
+//                    Toast.makeText(this@MainActivity, "Ad failed: ${adError.code} - ${adError.message}", Toast.LENGTH_LONG).show()
+//                }
 
                 mInterstitialAd = null
             }
